@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/commons::head}"></head>
+<body>
+<header th:replace="~{fragments/commons::nav}"></header>
+<main>
+    <div class="welcome mt-1 mb-4">
+        <p class="mySticky bg-gray text-dark user">Welcome <span th:text="${@userSession.username()}"></span></p>
+        <div class="row mt-1 mb-2">
+            <div class="col-6 mt-1 mb-1">
+                <div>
+                    <div class="home-fields" style="height: 40vh; overflow: auto">
+                        <h3 class="my-stamps">My Stamps</h3>
+                        <table th:each="stamp : ${myStamps}" class="my-table table-striped table-dark">
+                            <tr class="my-stamps">
+                                <td>
+                                    <img th:src="${stamp.getImageUrl()}" alt="" width="70px"
+                                         height="70px">
+                                </td>
+                                <td style="text-align: start">Name: <span th:text="${stamp.name}"></span></td>
+                                <td style="text-align: end; padding-right: 5px">Description: <span th:text="${stamp.description}"></span></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                <td style="text-align: start">Used paper: <span th:text="${stamp.paper.getPaperName()}"></span></td>
+                                <td style="text-align: end; padding-right: 5px">Price: <span th:text="${stamp.price}"></span>$
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="home-fields" style="height: 39vh; overflow: auto">
+                        <h3 class="my-stamps">My Purchases</h3>
+                        <div class="bought">
+                            <div th:each="stamp: ${myPurchases}">
+                                <div class="stamp">
+                                    <div  class="item">
+                                        <img th:src="${stamp.imageUrl}" alt="" width="100px"
+                                             height="100px">
+                                        <p th:text="${stamp.name}"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6 mt-1 mb-1">
+                <div class="home-fields" style="height: 40vh; overflow: auto">
+                    <h3 class="my-stamps">Offered Stamps</h3>
+                    <ul class="list-group list-group-vertical text-dark">
+                        <li th:each="stamp : ${offeredStamps}">
+                            <div  class="my-stamps-first-row">
+                                <div class="img1">
+                                    <img id="image" width="85px" th:src="${stamp.imageUrl}" alt=""
+                                         height="85" style="padding-top: 0.3em; padding-left: 0.3em; margin-top: 2.3em">
+                                </div>
+                                <div class="stamp-info">
+                                    <p>Name: <span th:text="${stamp.name}"></span></p>
+                                    <p>Description: <span th:text="${stamp.description}"></span></p>
+                                </div>
+                            </div>
+                            <div class="buttons-info">
+<!--                                <div class="favorite">-->
+<!--                                    <p><a class="btn-outline-info btn">To Wishlist</a>-->
+<!--                                    </p>-->
+<!--                                </div>-->
+                                <form th:method="POST" th:action="@{/stamp/wishlist/add/{id} (id=${stamp.id})}">
+                                    <button type="submit" class="btn-outline-info btn">To Wishlist</button>
+                                </form>
+                            </div>
+                            <div class="second-info">
+                                <p th:text="${'Added by: ' + stamp.owner.username}"></p>
+                                <p></p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="home-fields" style="height: 39vh; overflow: auto">
+                    <h3 class="my-stamps">My Wishlist</h3>
+                    <div th:each="stamp : ${myWishlist}" class="wish-list">
+                        <table class="my-table">
+                            <tr class="my-stamps">
+                                <td style="text-align: start; padding-left: 5px"><span th:text="${stamp.name}"></span></td>
+                                <img th:src="${stamp.getImageUrl()}" alt="" width="55px"
+                                     height="55" style="padding-top: 0.3em; padding-left: 0.3em">
+                                <td style="text-align: end; padding-right: 5px">Price: <span th:text="${stamp.price}"></span> $</td>
+                                <td style="width: 15%; padding-top: 8px; padding-right: 5px">
+                                    <form th:method="POST"
+                                          th:action="@{/stamp/remove/{id}(id=${stamp.id})}">
+                                        <button type="submit" class="btn-danger btn">Remove</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="buttons-info">
+                        <p style="margin-top: 10px">
+                        <form th:action="@{/stamp/buy}" th:method="POST">
+                            <button type="submit" class="btn-info btn">Buy all</button>
+                        </form>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+<footer th:replace="~{fragments/commons::footer}"></footer>
+</body>
+</html>
