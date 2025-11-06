@@ -65,10 +65,6 @@
                                 </div>
                             </div>
                             <div class="buttons-info">
-<!--                                <div class="favorite">-->
-<!--                                    <p><a class="btn-outline-info btn">To Wishlist</a>-->
-<!--                                    </p>-->
-<!--                                </div>-->
                                 <form th:method="POST" th:action="@{/stamp/wishlist/add/{id} (id=${stamp.id})}">
                                     <button type="submit" class="btn-outline-info btn">To Wishlist</button>
                                 </form>
