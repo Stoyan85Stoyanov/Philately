@@ -55,7 +55,7 @@ public class HomeController {
         List<Stamp> offeredStamps = stampService.getAll()
                 .stream()
                 .filter(stamp -> !stamp.getOwner().getUsername().equals(currentUsername))
-                .collect(Collectors.toList());
+                .toList();
 
           // Offered Stamps
         Set<Stamp> offers = new HashSet<>(offeredStamps);
@@ -79,5 +79,4 @@ public class HomeController {
 
         return "home";
     }
-
 }
